@@ -6,24 +6,10 @@ import os
 def crear_icono_desde_texto(texto, nombre_archivo_ico="icono_texto.ico", tamano_base=(256, 256), color_fondo=(0, 0, 0, 0), color_texto=(255, 255, 255, 255)):
     print(nombre_archivo_ico)
    
-    """
-    Crea un archivo .ico a partir de un texto dado.
-
-    Args:
-        texto (str): El texto que se mostrará en el icono.
-        nombre_archivo_ico (str): El nombre del archivo .ico de salida.
-        tamano_base (tuple): El tamaño base de la imagen (ancho, alto) en píxeles.
-                              Se recomienda 256x256 para una buena calidad.
-        color_fondo (tuple): Color de fondo de la imagen (R, G, B, A).
-                             (0, 0, 0, 0) es transparente.
-        color_texto (tuple): Color del texto (R, G, B, A).
-
-    """
     try:
         # Intenta cargar una fuente TrueType. Si no se encuentra, usa la fuente por defecto de Pillow.
         # Puedes especificar la ruta a una fuente .ttf en tu sistema.
-        # Por ejemplo: font_path = "C:/Windows/Fonts/arial.ttf"
-        # O para Linux: font_path = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+
         font_path = "sans serif" # Deja en None para usar la fuente por defecto de Pillow
         try:
             # Prueba con una fuente común si existe
@@ -79,11 +65,7 @@ def crear_icono_desde_texto(texto, nombre_archivo_ico="icono_texto.ico", tamano_
 
         # Dibujar el texto
         draw.text((x, y), texto, font=font, fill=color_texto)
-
-        # Tamaños comunes para iconos de Windows (en orden descendente para mejor calidad)
-        # Pillow puede generar un .ico con múltiples tamaños automáticamente.
-        # Los tamaños más comunes son 256x256, 48x48, 32x32, 16x16.
-        # Al guardar, Pillow intentará generar estos tamaños a partir de la imagen base.
+        # tamaños más comunes son 256x256, 48x48, 32x32, 16x16.
         img.save(nombre_archivo_ico, sizes=[(256, 256), (48, 48), (32, 32), (16, 16)])
 
         print(f"Icono '{nombre_archivo_ico}' creado exitosamente.")
@@ -92,19 +74,7 @@ def crear_icono_desde_texto(texto, nombre_archivo_ico="icono_texto.ico", tamano_
         print(f"Ocurrió un error: {e}")
 #convertir .png a .ico
 def convertir_png_a_ico(ruta_png, ruta_ico_salida, tamanos_ico=None):
-    """
-    Convierte una imagen PNG a formato ICO usando Pillow.
-
-    Args:
-        ruta_png (str): La ruta completa al archivo PNG de entrada.
-        ruta_ico_salida (str): La ruta completa donde se guardará el archivo ICO de salida.
-        tamanos_ico (list, optional): Una lista de tuplas (ancho, alto) para los tamaños
-                                     que se incluirán en el archivo ICO.
-                                     Si es None, se usarán tamaños comunes para Windows:
-                                     [(256, 256), (48, 48), (32, 32), (16, 16)].
-    Returns:
-        bool: True si la conversión fue exitosa, False en caso contrario.
-    """
+   
     try:
         # Abre la imagen PNG
         img = Image.open(ruta_png)
@@ -147,3 +117,4 @@ def convertir_png_a_ico(ruta_png, ruta_ico_salida, tamanos_ico=None):
 # crear_icono_desde_texto("{ }", "icono_brackets.ico", color_fondo=(0, 0, 0, 0), color_texto=(135, 206, 250, 255))
 #icono latex
 crear_icono_desde_texto("TeX", "LaTeX.ico", color_fondo=(0, 0, 0, 0), color_texto=(255, 226, 250, 255))
+convertir_png_a_ico("final-space.png","fspace.ico")
