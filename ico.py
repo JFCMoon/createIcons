@@ -1,6 +1,8 @@
 from PIL import Image, ImageDraw, ImageFont
 import os
 
+
+#convertir texto a icono.ico
 def crear_icono_desde_texto(texto, nombre_archivo_ico="icono_texto.ico", tamano_base=(256, 256), color_fondo=(0, 0, 0, 0), color_texto=(255, 255, 255, 255)):
     print(nombre_archivo_ico)
    
@@ -88,6 +90,46 @@ def crear_icono_desde_texto(texto, nombre_archivo_ico="icono_texto.ico", tamano_
 
     except Exception as e:
         print(f"Ocurrió un error: {e}")
+#convertir .png a .ico
+def convertir_png_a_ico(ruta_png, ruta_ico_salida, tamanos_ico=None):
+    """
+    Convierte una imagen PNG a formato ICO usando Pillow.
+
+    Args:
+        ruta_png (str): La ruta completa al archivo PNG de entrada.
+        ruta_ico_salida (str): La ruta completa donde se guardará el archivo ICO de salida.
+        tamanos_ico (list, optional): Una lista de tuplas (ancho, alto) para los tamaños
+                                     que se incluirán en el archivo ICO.
+                                     Si es None, se usarán tamaños comunes para Windows:
+                                     [(256, 256), (48, 48), (32, 32), (16, 16)].
+    Returns:
+        bool: True si la conversión fue exitosa, False en caso contrario.
+    """
+    try:
+        # Abre la imagen PNG
+        img = Image.open(ruta_png)
+
+        # Asegúrate de que la imagen tenga un canal alfa para transparencia
+        # Si la imagen es RGB, convertirla a RGBA
+        if img.mode == 'RGB':
+            img = img.convert('RGBA')
+
+        # Define los tamaños por defecto si no se especifican
+        if tamanos_ico is None:
+            tamanos_ico = [(256, 256), (48, 48), (32, 32), (16, 16)]
+
+        # Guarda la imagen como ICO, incluyendo los diferentes tamaños
+        img.save(ruta_ico_salida, sizes=tamanos_ico)
+
+        print(f"'{ruta_png}' convertido exitosamente a '{ruta_ico_salida}'.")
+        return True
+
+    except FileNotFoundError:
+        print(f"Error: El archivo PNG no se encontró en la ruta: '{ruta_png}'.")
+        return False
+    except Exception as e:
+        print(f"Ocurrió un error al convertir '{ruta_png}' a ICO: {e}")
+        return False
 
 # --- EJEMPLOS DE USO ---
 
